@@ -1,0 +1,43 @@
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.largeDiv {
+    flex: 1;
+   height: 100%;
+   margin:0;
+   cursor: pointer;
+}
+
+.smallDiv{
+    width: 5px;
+    height: 5px;
+    padding: 20vw;
+    margin-bottom: 5vw;
+    cursor: pointer;
+}
+
+#small-div-1{
+    margin-right:-9.45vw;
+    background-color: rgb(214, 142, 206);
+}
+
+#small-div-2{
+    margin-left:-9.45vw;
+    background-color: rgb(167, 205, 96) ;
+}
+
+#large-div-1{ 
+    background-color:rgb(247, 164, 101);
+}
+
+#large-div-2{ 
+    background-color: rgb(143, 148, 216);
+}

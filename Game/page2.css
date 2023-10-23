@@ -1,0 +1,55 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    align-items: center;
+}
+
+.square {
+    width: 150px; 
+    height: 150px; 
+    margin: 5px; 
+}
+
+#one{ 
+    background-color:rgb(255, 235, 17) ;
+}
+
+#two{ 
+    background-color: rgb(134, 72, 163);
+}
+
+#three{ 
+    background-color: rgb(83, 221, 59);
+}
+
+#four{ 
+    background-color: rgb(254, 20, 22);
+}
+
+#five{ 
+    background-color: rgb(255, 123, 32);
+}
+
+#six{ 
+    background-color: rgb(37, 174, 228);
+}
+
+#round-button {
+    opacity: 0.9
+}
+
+#text2{ 
+    margin-left: 10vw;
+    margin-bottom: -34vw
+}
+
+
