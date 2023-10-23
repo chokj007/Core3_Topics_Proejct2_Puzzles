@@ -18,6 +18,10 @@ h1{
     pointer-events: none;
   }
 
+  .centre { 
+    margin-left: 33vw;
+    font-size: 30px;
+  }
 
   div {
      background-color:transparent;
