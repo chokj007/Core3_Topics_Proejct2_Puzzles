@@ -12,47 +12,47 @@ document.addEventListener('DOMContentLoaded', function () {
     var gridContainer = document.getElementById('grid-container');
     var cellCount = 0; // starts cell count
     const colors = [
-        'RGB(189, 64, 76 )',
+        // 'RGB(189, 64, 76 )',
         'RGB(191, 78, 71)',
-        'RGB(194, 92, 67)',
+        // 'RGB(194, 92, 67)',
         'RGB( 196, 105, 64)',
-        'RGB(198, 120, 60)',
+        // 'RGB(198, 120, 60)',
         
         'RGB(176, 61, 75)',
         'RGB(181, 73, 73)',
-        'RGB(184, 85, 73)',
+        // 'RGB(184, 85, 73)',
         'RGB(189, 98, 72)',
         'RGB(193, 111, 71)',
         
         'RGB(164, 58, 74)',
         'RGB(171, 69, 75)',
-        'RGB(177, 79, 78)',
+        // 'RGB(177, 79, 78)',
         'RGB(183, 91, 81)',
         'RGB(190, 101, 83)',
         
-        'RGB(152, 54, 73)',
-        'RGB(160, 65, 77)',
-        'RGB(169, 73, 84)',
-        'RGB(177, 84, 89)',
-        'RGB(186, 93, 95)',
+        // 'RGB(152, 54, 73)',
+        // 'RGB(160, 65, 77)',
+        // 'RGB(169, 73, 84)',
+        // 'RGB(177, 84, 89)',
+        // 'RGB(186, 93, 95)',
         
         'RGB(139, 52, 71)',
         'RGB(151, 60, 80)',
-        'RGB(160, 67, 88 )',
+        // 'RGB(160, 67, 88 )',
         'RGB(171, 75, 97)',
         'RGB(181, 83, 107)',
         
         'RGB(127, 49, 71)',
         'RGB(140, 56, 83)',
-        'RGB(153, 61, 95 )',
+        // 'RGB(153, 61, 95 )',
         'RGB(165, 68, 107)',
         'RGB(177, 75, 119)',
         
-        'RGB(115, 47, 70)',
+        // 'RGB(115, 47, 70)',
         'RGB(129, 51, 85)',
-        'RGB(145, 56, 99)',
+        // 'RGB(145, 56, 99)',
         'RGB(159, 61, 115)',
-        'RGB(173, 66, 130)',
+        // 'RGB(173, 66, 130)',
     ]; 
 
      // shuffle and randomize the initial background colors of the divs
@@ -176,9 +176,6 @@ document.addEventListener('DOMContentLoaded', function () {
             audio.preload = 'auto'; 
             audio.load(); 
         
-            audio.addEventListener('ended', () => {
-                spaceBarPressed = false;
-            });
         
             // cycle through colors
             function cycleColors() {
@@ -188,30 +185,55 @@ document.addEventListener('DOMContentLoaded', function () {
                         return; // don't cycle these cells
                     }
         
-                    setBackgroundColor(selectedDiv, shuffledColors[colorIndex]);
-                    colorIndex = (colorIndex + 1) % shuffledColors.length;
-        
-                    if (selectedDiv.style.backgroundColor === predeterminedColors[selectedDiv.id]) {
-                        // Play audio
-                        audio.play().then(() => {
-                        }).catch((error) => {
-                            console.error('Error playing audio:', error);
-                        });
-                    }
-                }
-            }
+                   // Convert the background color to RGB
+       const backgroundColorRGB = getRGBColor(selectedDiv.style.backgroundColor);
+
+       if (isColorEqual(backgroundColorRGB, predeterminedColors[selectedDiv.id])) {
+           // Play audio
+           audio.play();
+           console.log(`Matched predetermined color for ${selectedDiv.id}`);
+       }
+
+       setBackgroundColor(selectedDiv, shuffledColors[colorIndex]);
+       colorIndex = (colorIndex + 1) % shuffledColors.length;
+   }
+}
+           
+           function getRGBColor(color) {
+               const match = color.match(/\d+/g);
+               if (match) {
+                   return match.map(Number);
+               }
+               return null;
+           }
+           
+           function isColorEqual(color1, color2) {
+               if (color1 && color2) {
+                   return color1.every((value, index) => value === color2[index]);
+               }
+               return false;
+           }
+
+            
+            
+
+            audio.addEventListener('ended', () => {
+                spaceBarPressed = false;
+            });
         
             function handleDivSelection(div) {
                 if (selectedDiv !== div) {
                     if (selectedDiv) {
-                        // Remove the border 
+                        // Remove the border
                         selectedDiv.classList.remove('selected-border');
+                        spaceBarPressed = false; // Reset the flag
                     }
                     selectedDiv = div;
                     selectedDiv.classList.add('selected-border');
                     colorIndex = 0;
                 }
             }
+            
         
             // background colors for all cells
             var cells = document.querySelectorAll('.grid-cell');
