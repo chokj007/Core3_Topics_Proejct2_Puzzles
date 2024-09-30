@@ -54,7 +54,7 @@
                     selectedDiv.style.border = '2px solid transparent'; // Reset border of previously selected div
                 }
                 selectedDiv = div;
-                selectedDiv.style.border = '2px solid black'; // Add border to indicate selection
+                selectedDiv.style.border = '2px solid black'; 
                 colorIndex = 0;
             }
         }

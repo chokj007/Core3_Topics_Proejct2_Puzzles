@@ -4,7 +4,10 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    flex-direction: column;
+    position: relative;
 }
+
 
 .container {
     display: flex;
@@ -46,10 +49,4 @@ body {
 #round-button {
     opacity: 0.9
 }
-
-#text2{ 
-    margin-left: 10vw;
-    margin-bottom: -34vw
-}
-
 

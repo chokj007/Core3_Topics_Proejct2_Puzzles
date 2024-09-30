@@ -41,4 +41,10 @@ body {
     border: 0.5px dashed black; 
 }
 
+#round-button-container {
+    display: none;
+}
 
+#text2 { 
+    left: 54.3%;
+}

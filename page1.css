@@ -1,3 +1,4 @@
+
 body {
     margin: 0;
     padding: 0;
@@ -5,15 +6,15 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    position: relative;
+    flex-direction: row; 
 }
 
 .container {
     display: flex;
-    /* position: relative;
-    top: 8;
-    left: 8; */
-    margin-left: 30vw;
-
+    flex-direction: row; 
+    align-items: center;
+    margin-bottom: 20px; /* for some space below the container */
 }
 
 .div { 
@@ -23,6 +24,10 @@ body {
     padding: 10px;
     text-align: center; 
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 #top {
@@ -37,7 +42,8 @@ body {
     background-color: rgb(0, 0, 255);
 }
 
-#text2{ 
-    margin-bottom: -40vw;
-    margin-left: -33vw
+#round-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

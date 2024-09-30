@@ -172,67 +172,137 @@ document.addEventListener('DOMContentLoaded', function () {
 
             };
 
-            var audio = new Audio('completeSound.mp3');
+            var audio = new Audio('GameWONaudio.mp3');
             audio.preload = 'auto'; 
             audio.load(); 
         
         
-            // cycle through colors
-            function cycleColors() {
-                if (selectedDiv && spaceBarPressed) {
-                    // Check if the selected cell is one of the specified cells
-                    if (selectedDiv.id === 'cell-0' || selectedDiv.id === 'cell-2' || selectedDiv.id === 'cell-4' || selectedDiv.id === 'cell-7' || selectedDiv.id === 'cell-12' || selectedDiv.id === 'cell-15' || selectedDiv.id === 'cell-16' || selectedDiv.id === 'cell-17' || selectedDiv.id === 'cell-18' || selectedDiv.id === 'cell-19' || selectedDiv.id === 'cell-22' || selectedDiv.id === 'cell-27' || selectedDiv.id === 'cell-30' || selectedDiv.id === 'cell-32' || selectedDiv.id === 'cell-34') {
-                        return; // don't cycle these cells
-                    }
+//             // cycle through colors
+//             function cycleColors() {
+//                 if (selectedDiv && spaceBarPressed) {
+//                     // Check if the selected cell is one of the specified cells
+//                     if (selectedDiv.id === 'cell-0' || selectedDiv.id === 'cell-2' || selectedDiv.id === 'cell-4' || selectedDiv.id === 'cell-7' || selectedDiv.id === 'cell-12' || selectedDiv.id === 'cell-15' || selectedDiv.id === 'cell-16' || selectedDiv.id === 'cell-17' || selectedDiv.id === 'cell-18' || selectedDiv.id === 'cell-19' || selectedDiv.id === 'cell-22' || selectedDiv.id === 'cell-27' || selectedDiv.id === 'cell-30' || selectedDiv.id === 'cell-32' || selectedDiv.id === 'cell-34') {
+//                         return; // don't cycle these cells
+//                     }
         
-                   // Convert the background color to RGB
-       const backgroundColorRGB = getRGBColor(selectedDiv.style.backgroundColor);
+//                    // Convert the background color to RGB
+//        const backgroundColorRGB = getRGBColor(selectedDiv.style.backgroundColor);
 
-       if (isColorEqual(backgroundColorRGB, predeterminedColors[selectedDiv.id])) {
-           // Play audio
-           audio.play();
-           console.log(`Matched predetermined color for ${selectedDiv.id}`);
-       }
+//        if (isColorEqual(backgroundColorRGB, predeterminedColors[selectedDiv.id])) {
+//            // Play audio
+//            audio.play();
+//            console.log(`Matched predetermined color for ${selectedDiv.id}`);
+//        }
 
-       setBackgroundColor(selectedDiv, shuffledColors[colorIndex]);
-       colorIndex = (colorIndex + 1) % shuffledColors.length;
-   }
-}
+//        setBackgroundColor(selectedDiv, shuffledColors[colorIndex]);
+//        colorIndex = (colorIndex + 1) % shuffledColors.length;
+//    }
+// }
            
-           function getRGBColor(color) {
-               const match = color.match(/\d+/g);
-               if (match) {
-                   return match.map(Number);
-               }
-               return null;
-           }
+//            function getRGBColor(color) {
+//                const match = color.match(/\d+/g);
+//                if (match) {
+//                    return match.map(Number);
+//                }
+//                return null;
+//            }
            
-           function isColorEqual(color1, color2) {
-               if (color1 && color2) {
-                   return color1.every((value, index) => value === color2[index]);
-               }
-               return false;
-           }
+//            function isColorEqual(color1, color2) {
+//                if (color1 && color2) {
+//                    return color1.every((value, index) => value === color2[index]);
+//                }
+//                return false;
+//            }
 
-            
-            
+function cycleColors() {
+    if (selectedDiv && spaceBarPressed) {
+        // Check if the selected cell is one of the specified cells
+        if (selectedDiv.id === 'cell-0' || selectedDiv.id === 'cell-2' || selectedDiv.id === 'cell-4' || selectedDiv.id === 'cell-7' || selectedDiv.id === 'cell-12' || selectedDiv.id === 'cell-15' || selectedDiv.id === 'cell-16' || selectedDiv.id === 'cell-17' || selectedDiv.id === 'cell-18' || selectedDiv.id === 'cell-19' || selectedDiv.id === 'cell-22' || selectedDiv.id === 'cell-27' || selectedDiv.id === 'cell-30' || selectedDiv.id === 'cell-32' || selectedDiv.id === 'cell-34') {
+            return; // don't cycle these cells
+        }
 
-            audio.addEventListener('ended', () => {
-                spaceBarPressed = false;
-            });
-        
-            function handleDivSelection(div) {
-                if (selectedDiv !== div) {
-                    if (selectedDiv) {
-                        // Remove the border
-                        selectedDiv.classList.remove('selected-border');
-                        spaceBarPressed = false; // Reset the flag
-                    }
-                    selectedDiv = div;
-                    selectedDiv.classList.add('selected-border');
-                    colorIndex = 0;
-                }
+        const backgroundColorRGB = getRGBColor(selectedDiv.style.backgroundColor);
+            const targetColorRGB = getRGBColor(predeterminedColors[selectedDiv.id]);
+
+        if (isColorEqual(backgroundColorRGB, targetColorRGB)) {
+            const currentTime = Date.now();
+            const selectionDuration = (currentTime - selectionStartTime) / 1000;
+
+            if (selectionDuration > 40) {
+                removeColorFromCycling(selectedDiv.style.backgroundColor);
             }
+        }
+
+        setBackgroundColor(selectedDiv, shuffledColors[colorIndex]);
+        colorIndex = (colorIndex + 1) % shuffledColors.length;
+
+
+        // Check if all cells have matched their predetermined colors
+        if (checkAllCellsMatched()) {
+            audio.play();
+        }
+    }
+}
+
+function checkAllCellsMatched() {
+    let allMatched = true;
+    const cells = document.querySelectorAll('.grid-cell');
+
+    cells.forEach((cell) => {
+        const cellColorRGB = getRGBColor(cell.style.backgroundColor);
+        const targetColorRGB = getRGBColor(predeterminedColors[cell.id]);
+
+        if (!isColorEqual(cellColorRGB, targetColorRGB)) {
+            allMatched = false;
+        }
+    });
+
+    return allMatched;
+}
+
+function getRGBColor(color) {
+    const match = color.match(/\d+/g);
+    if (match) {
+        return match.map(Number);
+    }
+    return null;
+}
+
+function isColorEqual(color1, color2) {
+    if (color1 && color2) {
+        return color1.every((value, index) => value === color2[index]);
+    }
+    return false;
+}
+
+function removeColorFromCycling(color) {
+    const index = shuffledColors.indexOf(color);
+    if (index !== -1) {
+        shuffledColors.splice(index, 1);
+    }
+}
+            
+
+audio.addEventListener('ended', () => {
+    spaceBarPressed = false;
+    document.getElementById('round-button-container').style.display = 'block'; 
+});
+
+        
+function handleDivSelection(div) {
+    if (selectedDiv !== div) {
+        if (selectedDiv) {
+            selectedDiv.classList.remove('selected-border');
+            spaceBarPressed = false;
+        }
+        selectedDiv = div;
+        selectedDiv.classList.add('selected-border');
+        colorIndex = 0;
+        selectionStartTime = Date.now(); // Update the selection start time
+    } else {
+        spaceBarPressed = false;
+    }
+}
             
         
             // background colors for all cells
